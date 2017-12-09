@@ -1,6 +1,3 @@
-# Arcade
-Arcade games built using React and Express
-
 ## Development
 ### Running the app
 Type ```PORT=3001 node bin/www``` into the comnmand line to start the Express backend.
