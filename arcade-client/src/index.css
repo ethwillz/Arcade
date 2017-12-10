@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+#root, #router{
+  height: 100% !important;
+  position: absolute; width: 100% !important;
+  height: 100% !important;
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.center-in-container{
+  max-width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
+form{
+  padding: 3%;
+  width: 40%;
+}
+
+img{
+  height: 80%;
+  width: 80%;
+  margin-left: 10%;
+}
+
+#game-card{
+  width: 25%;
+  height: 30%;
+  text-align: center;
+  cursor: pointer;
+}
+
+#right{
+  margin-left: 8%;
+}
+
+input{
+  margin-bottom: 5%;
+}
+
+button{
+  width: 80%;
+  margin-left: 10%;
+}
