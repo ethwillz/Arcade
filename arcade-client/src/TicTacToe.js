@@ -17,8 +17,28 @@ class TicTacToe extends Component {
 }
 
 class Board extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+      turn: 'X',
+    };
+  }
+
+  handleClick(i){
+    let squares = this.state.squares.slice();
+    let turn = this.state.turn;
+    squares[i] = turn;
+    if(turn === 'X') turn = 'O';
+    else turn = 'X';
+    this.setState({squares: squares});
+    this.setState({turn: turn});
+  }
+
   renderSquare(i){
-    return <Square value={i} />;
+    return <Square
+      value={this.state.squares[i]}
+      onClick={() => this.handleClick(i)} />;
   }
 
   render(){
@@ -49,7 +69,7 @@ class Board extends Component {
 class Square extends Component {
   render(){
     return (
-      <button className="square">
+      <button className="square" onClick={() => this.props.onClick()}>
         {this.props.value}
       </button>
     );
