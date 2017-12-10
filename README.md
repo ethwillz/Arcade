@@ -1,6 +1,6 @@
 ## Development
 ### Running the app
-Type ```brew services start mysql``` into the command line to start the MySQL database.
+Type ```brew services start mysql``` into the command line to start the MySQL database (remember to stop the daemon after development is done).
 
 Type ```PORT=3001 node bin/www``` into the comnmand line in the arcade-express fodler to start the Express backend.
 
