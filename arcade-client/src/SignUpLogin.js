@@ -10,24 +10,43 @@ class SignUp extends Component {
   state = {users: []}
 
   authenticate(){
-    alert('button successful');
+    fetch('/user/authenticate', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+      }),
+    }).then(response => {
+      sessionStorage.username = document.getElementById('username').value;
+      window.location.href='/game_selection'}
+    );
   }
 
   signUpAndAuthenticate(){
-    alert('hello');
-      fetch('/user', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: document.getElementById('su_username').value,
-          email: document.getElementById('su_email').value,
-          password: document.getElementById('su_password').value,
-          confirm_password: document.getElementById('su_confirm_password').value,
-        }),
-      });
+    fetch('/user/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: document.getElementById('su_username').value,
+        email: document.getElementById('su_email').value,
+        password: document.getElementById('su_password').value,
+        confirm_password: document.getElementById('su_confirm_password').value,
+      }),
+    }).then(response => {
+      if(response.status == 432) console.log('Passwords don\'t match');
+      else if(response.status == 433) console.log('Username or email already taken');
+      else if(response.status == 434) console.log('Email improperly formed');
+      else if(response.status == 435) console.log('Username improperly formed');
+      else if(response.status == 436) console.log('Password needs to be >8 characters alphanumeric');
+      else console.log('Unknown response');
+    }).catch(error => console.log(error));
   }
 
    render() {
