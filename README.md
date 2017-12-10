@@ -1,6 +1,8 @@
 ## Development
 ### Running the app
-Type ```PORT=3001 node bin/www``` into the comnmand line to start the Express backend.
+Type ```brew services start mysql``` into the command line to start the MySQL database.
+
+Type ```PORT=3001 node bin/www``` into the comnmand line in the arcade-express fodler to start the Express backend.
 
 Navigate to: ```http://127.0.0.1:3001/test``` to verify Express is working correctly.
 
