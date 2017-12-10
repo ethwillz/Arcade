@@ -5,34 +5,56 @@ import {
   Link
 } from 'react-router-dom'
 import './index.css';
+import io from 'socket.io-client';
 
 class TicTacToe extends Component {
-  state = {users: []}
-
-   render() {
-     return (
-       <Board />
-     );
+  render() {
+    return (
+      <Board />
+    );
   }
 }
 
-class Board extends Component {
+class Board extends TicTacToe {
   constructor(props) {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
-      turn: 'X',
+      started: false,
+      turn: false,
+      partner: undefined,
+      socket: io('http://localhost:3002/'),
     };
+    this.state.socket.on('user_connected', function(data){
+      this.setState({
+        partner: data.id,
+        turn: data.first,
+        started: true
+      });
+    }.bind(this));
+    this.state.socket.on('new_move', function(square){
+      let squares = this.state.squares.slice();
+      let turn = this.state.turn;
+      squares[square] = 'O';
+      this.setState({
+        squares: squares,
+        turn: true,
+      });
+    }.bind(this));
   }
 
   handleClick(i){
     let squares = this.state.squares.slice();
     let turn = this.state.turn;
-    squares[i] = turn;
-    if(turn === 'X') turn = 'O';
-    else turn = 'X';
-    this.setState({squares: squares});
-    this.setState({turn: turn});
+    squares[i] = 'X';
+    this.state.socket.emit('new_move', {
+      square: i,
+      player: this.state.partner,
+    });
+    this.setState({
+      squares: squares,
+      turn: false,
+    });
   }
 
   renderSquare(i){
@@ -42,9 +64,10 @@ class Board extends Component {
   }
 
   render(){
+    let clickEnabled = this.state.turn ? 'auto' : 'none';
     return (
       <div className="container">
-        <table>
+        <table style={{'pointer-events': clickEnabled}}>
           <div className="tr">
             {this.renderSquare(0)}
             {this.renderSquare(1)}

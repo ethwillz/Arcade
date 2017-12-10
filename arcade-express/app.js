@@ -4,11 +4,33 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 var test = require('./routes/test');
 var user = require('./routes/user');
 
-var app = express();
+http.listen(3002, function(){
+  console.log('listening on *:3002');
+});
+
+var toConnect = undefined;
+io.on('connection', function(socket){
+  if(toConnect === undefined){
+    console.log(socket.id + 'connected with nobody waiting for game');
+    toConnect = socket.id;
+  }
+  else{
+    console.log(socket.id + ' and ' + toConnect + ' are now playing');
+    socket.broadcast.to(toConnect).emit('user_connected', {id: socket.id, first: true});
+    io.to(socket.id).emit('user_connected', {id: toConnect, first: false});
+    toConnect = undefined;
+  }
+  socket.on('new_move', function(data){
+    socket.broadcast.to(data.player).emit('new_move', data.square);
+  })
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
