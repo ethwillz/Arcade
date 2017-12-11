@@ -9,3 +9,5 @@ Navigate to: ```http://127.0.0.1:3001/test``` to verify Express is working corre
 Next, open a new terminal and type ```npm start``` in the aracde-client folder.
 
 Navigate to: ```http://127.0.0.1:3000/``` in your browser to go to the app.
+
+https://docs.google.com/document/d/1keYZiaBk0dpjvRl_o_Wgh29orLPFyqKuyd7d_9q6NtY/edit?usp=sharing
